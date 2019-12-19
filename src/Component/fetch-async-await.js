@@ -7,10 +7,18 @@ class FetchAsyncAwait extends React.PureComponent{
     }
 
     async componentDidMount(){
-        debugger
-        const response = await fetch('https://api.coinmarketcap.com/v1/ticker/?limit=10');
-        const json = await response.json();
-        this.setState({ data: json})
+        try {
+            const response = await fetch('https://api.coinmarketcap.com/v1/ticker/?limit=10');
+            if (!response.ok) {
+                throw Error(response.statusText);
+            }else {
+                const json = await response.json();
+                this.setState({ data: json})
+            }
+        }
+        catch(error) {
+            console.log(error)
+        }
     }
 
     render(){
